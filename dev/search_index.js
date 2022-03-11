@@ -1,0 +1,3 @@
+var documenterSearchIndex = {"docs":
+[{"location":"#ParallelQCDStencil.jl","page":"ParallelQCDStencil","title":"ParallelQCDStencil.jl","text":"","category":"section"},{"location":"#Installation","page":"ParallelQCDStencil","title":"Installation","text":"","category":"section"},{"location":"","page":"ParallelQCDStencil","title":"ParallelQCDStencil","text":"] add https://git.uni-paderborn.de/cs-hit/theses/2022_parab/qcd-stencil/ParallelQCDStencil.jl","category":"page"},{"location":"","page":"ParallelQCDStencil","title":"ParallelQCDStencil","text":"Note: The minimal required Julia version is 1.7.","category":"page"}]
+}
