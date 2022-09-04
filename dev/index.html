@@ -5,17 +5,17 @@ NL = N * d                      #number of links
 LD = 3                          #link matrix length
 C1::T = 2                 #stencil constant 
 C2::T = 3                 #stencil constant   
-LG = 2                          #local grid length
-n_LG_d = Int(floor(L / LG))     #grids per dimension
-n_LG = n_LG_d^d                 #number of local grids
-master_rank = 0                 #mpi master rank</code></pre><p>The struct can be construced using :</p><pre><code class="nohighlight hljs">p = StencilPara{Int64, 2}(L=4, LG=2, master_rank=0)</code></pre><h2 id="Input-data"><a class="docs-heading-anchor" href="#Input-data">Input data</a><a id="Input-data-1"></a><a class="docs-heading-anchor-permalink" href="#Input-data" title="Permalink"></a></h2><p>For stencil computation input can be: </p><ul><li>vector of link data ()</li></ul><pre><code class="nohighlight hljs">rmat = rand(ComplexF64,(3,3))  
+IG = 2                          #local grid length
+n_IG_d = Int(floor(L / IG))     #grids per dimension
+n_IG = n_IG_d^d                 #number of local grids
+master_rank = 0                 #mpi master rank</code></pre><p>The struct can be construced using :</p><pre><code class="nohighlight hljs">p = StencilPara{Int64, 2}(L=4, IG=2, master_rank=0)</code></pre><h2 id="Input-data"><a class="docs-heading-anchor" href="#Input-data">Input data</a><a id="Input-data-1"></a><a class="docs-heading-anchor-permalink" href="#Input-data" title="Permalink"></a></h2><p>For stencil computation input can be: </p><ul><li>vector of link data ()</li></ul><pre><code class="nohighlight hljs">rmat = rand(ComplexF64,(3,3))  
 data = [rmat for i in 1:NL]</code></pre><ul><li>HDF5 file path : <ul><li>File containing array with variable name &quot;data&quot; </li><li>e.g. 2D array of size 10x10x2x3x3 </li></ul></li></ul><h2 id="Basic-Example-with-array-input"><a class="docs-heading-anchor" href="#Basic-Example-with-array-input">Basic Example with array input</a><a id="Basic-Example-with-array-input-1"></a><a class="docs-heading-anchor-permalink" href="#Basic-Example-with-array-input" title="Permalink"></a></h2><pre><code class="nohighlight hljs">#basic_example.jl
 using MPI
 using Parameters
 using LinearAlgebra
 using Test
 
-p = StencilPara{Int64, 2}(L=10, LG=5, master_rank=1)
+p = StencilPara{Int64, 2}(L=10, IG=5, master_rank=1)
 @unpack NL, master_rank, C1, C2, N = p
 MPI.Init()
 comm = MPI.COMM_WORLD
@@ -43,7 +43,7 @@ using LinearAlgebra
 using Test
 using HDF5
 
-p = StencilPara{Int64, 2}(L=10, LG=5, master_rank=1)
+p = StencilPara{Int64, 2}(L=10, IG=5, master_rank=1)
 @unpack NL, master_rank, C1, C2, N, L, d = p
 
 MPI.Init()
@@ -56,4 +56,4 @@ if (rank == master_rank)
     println(&quot;total:$(total)\n&quot;)
 end
 MPI.Finalize()
-</code></pre><h2 id="Code-execution"><a class="docs-heading-anchor" href="#Code-execution">Code execution</a><a id="Code-execution-1"></a><a class="docs-heading-anchor-permalink" href="#Code-execution" title="Permalink"></a></h2><p>The program can be launched using MPI command e.g:</p><pre><code class="nohighlight hljs">mpirun -n 4 julia --project basic_example.jl</code></pre></article><nav class="docs-footer"><a class="docs-footer-nextpage" href="references/exports/">All Exports »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.14 on <span class="colophon-date" title="Sunday 4 September 2022 23:25">Sunday 4 September 2022</span>. Using Julia version 1.7.2.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+</code></pre><h2 id="Code-execution"><a class="docs-heading-anchor" href="#Code-execution">Code execution</a><a id="Code-execution-1"></a><a class="docs-heading-anchor-permalink" href="#Code-execution" title="Permalink"></a></h2><p>The program can be launched using MPI command e.g:</p><pre><code class="nohighlight hljs">mpirun -n 4 julia --project basic_example.jl</code></pre></article><nav class="docs-footer"><a class="docs-footer-nextpage" href="references/exports/">All Exports »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.14 on <span class="colophon-date" title="Monday 5 September 2022 00:12">Monday 5 September 2022</span>. Using Julia version 1.7.2.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
