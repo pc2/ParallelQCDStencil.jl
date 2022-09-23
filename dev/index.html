@@ -1,59 +1,95 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>ParallelQCDStencil · ParallelQCDStencil.jl</title><script data-outdated-warner src="assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.039/juliamono-regular.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.11/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="assets/documenter.js"></script><script src="siteinfo.js"></script><script src="../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="assets/themeswap.js"></script><link href="assets/favicon.ico" rel="icon" type="image/x-icon"/></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href>ParallelQCDStencil.jl</a></span></div><form class="docs-search" action="search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li class="is-active"><a class="tocitem" href>ParallelQCDStencil</a><ul class="internal"><li><a class="tocitem" href="#Installation"><span>Installation</span></a></li><li><a class="tocitem" href="#Assumptions"><span>Assumptions</span></a></li><li><a class="tocitem" href="#Usage"><span>Usage</span></a></li><li><a class="tocitem" href="#Input-parameters"><span>Input parameters</span></a></li><li><a class="tocitem" href="#Input-data"><span>Input data</span></a></li><li><a class="tocitem" href="#Basic-Example-with-array-input"><span>Basic Example with array input</span></a></li><li><a class="tocitem" href="#Basic-Example-with-file-input"><span>Basic Example with file input</span></a></li><li><a class="tocitem" href="#Code-execution"><span>Code execution</span></a></li></ul></li><li><input class="collapse-toggle" id="menuitem-2" type="checkbox"/><label class="tocitem" for="menuitem-2"><span class="docs-label">References</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="references/exports/">All Exports</a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>ParallelQCDStencil</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>ParallelQCDStencil</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://git.uni-paderborn.de/cs-hit/theses/2022_parab/qcd-stencil/ParallelQCDStencil.jl/blob/master/docs/src/index.md#" title="Edit source"><span class="docs-icon fa"></span><span class="docs-label is-hidden-touch">Edit source</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="ParallelQCDStencil.jl"><a class="docs-heading-anchor" href="#ParallelQCDStencil.jl">ParallelQCDStencil.jl</a><a id="ParallelQCDStencil.jl-1"></a><a class="docs-heading-anchor-permalink" href="#ParallelQCDStencil.jl" title="Permalink"></a></h1><h2 id="Installation"><a class="docs-heading-anchor" href="#Installation">Installation</a><a id="Installation-1"></a><a class="docs-heading-anchor-permalink" href="#Installation" title="Permalink"></a></h2><pre><code class="nohighlight hljs">] add https://git.uni-paderborn.de/cs-hit/theses/2022_parab/qcd-stencil/ParallelQCDStencil.jl</code></pre><p><strong>Note:</strong> The minimal required Julia version is 1.7.</p><h2 id="Assumptions"><a class="docs-heading-anchor" href="#Assumptions">Assumptions</a><a id="Assumptions-1"></a><a class="docs-heading-anchor-permalink" href="#Assumptions" title="Permalink"></a></h2><ul><li>Link matrices are of same type and of size 3x3 (independent of dimension)</li><li>For parallel<ul><li>Local grids must be square and of same size</li><li>(global grid/ local grid) must be an integer</li></ul></li></ul><h2 id="Usage"><a class="docs-heading-anchor" href="#Usage">Usage</a><a id="Usage-1"></a><a class="docs-heading-anchor-permalink" href="#Usage" title="Permalink"></a></h2><pre><code class="nohighlight hljs">julia&gt; using ParallelQCDStencil</code></pre><h2 id="Input-parameters"><a class="docs-heading-anchor" href="#Input-parameters">Input parameters</a><a id="Input-parameters-1"></a><a class="docs-heading-anchor-permalink" href="#Input-parameters" title="Permalink"></a></h2><p>We are using struct for passing around the parameters to the fuctions. It consists of :</p><pre><code class="nohighlight hljs">L = 5                           #number of lattices in per dimension
-N = L^d                         #number of sites
-NL = N * d                      #number of links
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>ParallelQCDStencil · ParallelQCDStencil.jl</title><script data-outdated-warner src="assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.039/juliamono-regular.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.11/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="assets/documenter.js"></script><script src="siteinfo.js"></script><script src="../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="assets/themeswap.js"></script><link href="assets/favicon.ico" rel="icon" type="image/x-icon"/></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href>ParallelQCDStencil.jl</a></span></div><form class="docs-search" action="search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li class="is-active"><a class="tocitem" href>ParallelQCDStencil</a><ul class="internal"><li><a class="tocitem" href="#Installation"><span>Installation</span></a></li><li><a class="tocitem" href="#Assumptions"><span>Assumptions</span></a></li><li><a class="tocitem" href="#Usage"><span>Usage</span></a></li><li><a class="tocitem" href="#Input-parameters"><span>Input parameters</span></a></li><li><a class="tocitem" href="#Input-data"><span>Input data</span></a></li><li><a class="tocitem" href="#D-Sequential-stencil-computation-with-array-input"><span>2D Sequential stencil computation with array input</span></a></li><li><a class="tocitem" href="#D-Parallel-stencil-computation-with-array-input"><span>2D Parallel stencil computation with array input</span></a></li><li><a class="tocitem" href="#D-Parallel-stencil-computation-with-HDF5-input"><span>2D Parallel stencil computation with HDF5 input</span></a></li><li><a class="tocitem" href="#D-Sequential-stencil-computation-with-array-input-2"><span>4D Sequential stencil computation with array input</span></a></li><li><a class="tocitem" href="#Code-execution"><span>Code execution</span></a></li></ul></li><li><input class="collapse-toggle" id="menuitem-2" type="checkbox"/><label class="tocitem" for="menuitem-2"><span class="docs-label">References</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="references/exports/">All Exports</a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>ParallelQCDStencil</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>ParallelQCDStencil</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://git.uni-paderborn.de/cs-hit/theses/2022_parab/qcd-stencil/ParallelQCDStencil.jl/blob/master/docs/src/index.md#" title="Edit source"><span class="docs-icon fa"></span><span class="docs-label is-hidden-touch">Edit source</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="ParallelQCDStencil.jl"><a class="docs-heading-anchor" href="#ParallelQCDStencil.jl">ParallelQCDStencil.jl</a><a id="ParallelQCDStencil.jl-1"></a><a class="docs-heading-anchor-permalink" href="#ParallelQCDStencil.jl" title="Permalink"></a></h1><h2 id="Installation"><a class="docs-heading-anchor" href="#Installation">Installation</a><a id="Installation-1"></a><a class="docs-heading-anchor-permalink" href="#Installation" title="Permalink"></a></h2><pre><code class="nohighlight hljs">] add https://git.uni-paderborn.de/cs-hit/theses/2022_parab/qcd-stencil/ParallelQCDStencil.jl</code></pre><p><strong>Note:</strong> The minimal required Julia version is 1.7.</p><h2 id="Assumptions"><a class="docs-heading-anchor" href="#Assumptions">Assumptions</a><a id="Assumptions-1"></a><a class="docs-heading-anchor-permalink" href="#Assumptions" title="Permalink"></a></h2><ul><li>Link matrices must be of the same type and size 3x3 (independent of dimension)</li><li>For parallel computation:<ul><li>Inner grids must be square and of the same size.</li><li>Division of the global grid by inner grid length must be an integer.</li></ul></li></ul><h2 id="Usage"><a class="docs-heading-anchor" href="#Usage">Usage</a><a id="Usage-1"></a><a class="docs-heading-anchor-permalink" href="#Usage" title="Permalink"></a></h2><pre><code class="nohighlight hljs">julia&gt; using ParallelQCDStencil</code></pre><h2 id="Input-parameters"><a class="docs-heading-anchor" href="#Input-parameters">Input parameters</a><a id="Input-parameters-1"></a><a class="docs-heading-anchor-permalink" href="#Input-parameters" title="Permalink"></a></h2><p>We are using struct for passing around the parameters to the fuctions. It consists of :</p><pre><code class="nohighlight hljs">L = 5                           #number of lattices in per dimension
+N = L^D                         #number of sites
+NL = N * D                      #number of links
 LD = 3                          #link matrix length
-C1::T = 2                 #stencil constant 
-C2::T = 3                 #stencil constant   
-IG = 2                          #local grid length
+C1::T = 2                       #stencil constant 
+C2::T = 3                       #stencil constant   
+IG = 2                          #inner grid length
 n_IG_d = Int(floor(L / IG))     #grids per dimension
-n_IG = n_IG_d^d                 #number of local grids
-master_rank = 0                 #mpi master rank</code></pre><p>The struct can be construced using :</p><pre><code class="nohighlight hljs">p = StencilPara{Int64, 2}(L=4, IG=2, master_rank=0)</code></pre><h2 id="Input-data"><a class="docs-heading-anchor" href="#Input-data">Input data</a><a id="Input-data-1"></a><a class="docs-heading-anchor-permalink" href="#Input-data" title="Permalink"></a></h2><p>For stencil computation input can be: </p><ul><li>vector of link data ()</li></ul><pre><code class="nohighlight hljs">rmat = rand(ComplexF64,(3,3))  
-data = [rmat for i in 1:NL]</code></pre><ul><li>HDF5 file path : <ul><li>File containing array with variable name &quot;data&quot; </li><li>e.g. 2D array of size 10x10x2x3x3 </li></ul></li></ul><h2 id="Basic-Example-with-array-input"><a class="docs-heading-anchor" href="#Basic-Example-with-array-input">Basic Example with array input</a><a id="Basic-Example-with-array-input-1"></a><a class="docs-heading-anchor-permalink" href="#Basic-Example-with-array-input" title="Permalink"></a></h2><pre><code class="nohighlight hljs">#basic_example.jl
-using MPI
-using Parameters
-using LinearAlgebra
-using Test
+n_IG = n_IG_d^D                 #number of inner grids
+master_rank = 0                 #mpi master rank</code></pre><p>Struct instantiation :</p><pre><code class="nohighlight hljs"># 2D Sequential 
+p = StencilPara{Int64, 2}(L=4)
 
-p = StencilPara{Int64, 2}(L=10, IG=5, master_rank=1)
-@unpack NL, master_rank, C1, C2, N = p
-MPI.Init()
-comm = MPI.COMM_WORLD
-rank = MPI.Comm_rank(comm)
+# 2D Parallel 
+p = StencilPara{Int64, 2}(L=4, IG=2)
 
-if (rank == master_rank)
-    rmat = [
-        0.630657+0.343875im 0.682196+0.797296im 0.641287+0.931409im
-        0.566447+0.395339im 0.186153+0.685137im 0.484366+0.325613im
-        0.561107+0.889588im 0.978503+0.803343im 0.69018+0.652149im
-    ]
+# 4D Parallel 
+p = StencilPara{Int64, 4}(L=4)</code></pre><h2 id="Input-data"><a class="docs-heading-anchor" href="#Input-data">Input data</a><a id="Input-data-1"></a><a class="docs-heading-anchor-permalink" href="#Input-data" title="Permalink"></a></h2><p>For stencil computation input can be: </p><ul><li>Array:<ul><li>e.g. 2D array of size 360000</li></ul></li></ul><pre><code class="nohighlight hljs">    #generating random array data
+    random_array_data = [rand(ComplexF64, (3,3)) for i in 1:360000]</code></pre><ul><li>HDF5 file: <ul><li>File containing array with variable name &quot;data&quot; </li><li>e.g. 2D array of size 600x600x2x3x3 </li></ul></li></ul><pre><code class="nohighlight hljs">    #generating random HDF5 file data
+    using HDF5
+    fn = &quot;2d_l_600_cf64.h5&quot;
+    @unpack NL, master_rank, C1, C2, N, LD = p
+
+    v = rand(ComplexF64,(600,600,2,3,3));       
+    h5open(fn, &quot;w&quot;) do f
+        write(f, &quot;data&quot;, v) 
+    end</code></pre><h2 id="D-Sequential-stencil-computation-with-array-input"><a class="docs-heading-anchor" href="#D-Sequential-stencil-computation-with-array-input">2D Sequential stencil computation with array input</a><a id="D-Sequential-stencil-computation-with-array-input-1"></a><a class="docs-heading-anchor-permalink" href="#D-Sequential-stencil-computation-with-array-input" title="Permalink"></a></h2><pre><code class="nohighlight hljs">    using ParallelQCDStencil
+    using Parameters
+    using LinearAlgebra
+
+    p = StencilPara{Int64, 2}(L=10, master_rank=0)
+    @unpack NL, master_rank, C1, C2, N, LD = p
+    
+    rmat = rand(ComplexF64, (LD,LD))
+    
     data = ParallelQCDStencil.linear_link_values_to_site_based_array(p, [rmat for i in 1:NL])
-else
-    data = nothing
-end
-total = compute_stencil(p, data, comm, rank, LocalGridNaive())
+      
+    total = compute_stencil(p, data, Sequential())
+    
+    println(&quot;total:$(total) serial\n &quot;)</code></pre><h2 id="D-Parallel-stencil-computation-with-array-input"><a class="docs-heading-anchor" href="#D-Parallel-stencil-computation-with-array-input">2D Parallel stencil computation with array input</a><a id="D-Parallel-stencil-computation-with-array-input-1"></a><a class="docs-heading-anchor-permalink" href="#D-Parallel-stencil-computation-with-array-input" title="Permalink"></a></h2><pre><code class="nohighlight hljs">    using ParallelQCDStencil
+    using MPI
+    using Parameters
+    using LinearAlgebra
+    
+    p = StencilPara{Int64, 2}(L=10, IG=5, master_rank=1)
+    @unpack NL, master_rank, C1, C2, N = p
+    
+    MPI.Init()
+    comm = MPI.COMM_WORLD
+    rank = MPI.Comm_rank(comm)
+    
+    if (rank == master_rank)
+        data = ParallelQCDStencil.linear_link_values_to_site_based_array(p, [rand(ComplexF64, (3,3)) for i in 1:NL])
+    else
+        data = nothing
+    end
+    total = compute_stencil(p, data, comm, rank, LocalGridNaive())
+    
+    if (rank == master_rank)
+        println(&quot;total:$(total)\n&quot;)
+    end
+    MPI.Finalize()</code></pre><h2 id="D-Parallel-stencil-computation-with-HDF5-input"><a class="docs-heading-anchor" href="#D-Parallel-stencil-computation-with-HDF5-input">2D Parallel stencil computation with HDF5 input</a><a id="D-Parallel-stencil-computation-with-HDF5-input-1"></a><a class="docs-heading-anchor-permalink" href="#D-Parallel-stencil-computation-with-HDF5-input" title="Permalink"></a></h2><pre><code class="nohighlight hljs">    using ParallelQCDStencil
+    using MPI
+    using Parameters
+    using LinearAlgebra
+    using HDF5
+    
+    p = StencilPara{Int64, 2}(L=10, IG=5, master_rank=1)
+    @unpack NL, master_rank, C1, C2, N, L, IG = p
+    d = ParallelQCDStencil._get_d_val(p)
+    
+    MPI.Init()
+    comm = MPI.COMM_WORLD
+    rank = MPI.Comm_rank(comm)
+    
+    file = &quot;data/2d/test_files/2d_array_l_10_cf64.h5&quot;
+    total = compute_stencil(p, file, comm, rank, LocalGridNaive(); file=true)
 
-if (rank == master_rank)
-    println(&quot;total:$(total)\n&quot;)
-end
-MPI.Finalize()</code></pre><h2 id="Basic-Example-with-file-input"><a class="docs-heading-anchor" href="#Basic-Example-with-file-input">Basic Example with file input</a><a id="Basic-Example-with-file-input-1"></a><a class="docs-heading-anchor-permalink" href="#Basic-Example-with-file-input" title="Permalink"></a></h2><pre><code class="nohighlight hljs">using ParallelQCDStencil
-using MPI
-using Parameters
-using LinearAlgebra
-using Test
-using HDF5
+    if (rank == master_rank)
+        println(&quot;total:$(total)\n&quot;)
+    end
+    MPI.Finalize()</code></pre><h2 id="D-Sequential-stencil-computation-with-array-input-2"><a class="docs-heading-anchor" href="#D-Sequential-stencil-computation-with-array-input-2">4D Sequential stencil computation with array input</a><a class="docs-heading-anchor-permalink" href="#D-Sequential-stencil-computation-with-array-input-2" title="Permalink"></a></h2><pre><code class="nohighlight hljs">    using ParallelQCDStencil
+    using Parameters
+    using LinearAlgebra
 
-p = StencilPara{Int64, 2}(L=10, IG=5, master_rank=1)
-@unpack NL, master_rank, C1, C2, N, L, d = p
-
-MPI.Init()
-comm = MPI.COMM_WORLD
-rank = MPI.Comm_rank(comm)
-file = &quot;2d_array_l_10_cf64.h5&quot;
-total = compute_stencil(p, file, comm, rank, LocalGridNaive(); file=true)
-
-if (rank == master_rank)
-    println(&quot;total:$(total)\n&quot;)
-end
-MPI.Finalize()
-</code></pre><h2 id="Code-execution"><a class="docs-heading-anchor" href="#Code-execution">Code execution</a><a id="Code-execution-1"></a><a class="docs-heading-anchor-permalink" href="#Code-execution" title="Permalink"></a></h2><p>The program can be launched using MPI command e.g:</p><pre><code class="nohighlight hljs">mpirun -n 4 julia --project basic_example.jl</code></pre></article><nav class="docs-footer"><a class="docs-footer-nextpage" href="references/exports/">All Exports »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.14 on <span class="colophon-date" title="Thursday 22 September 2022 14:43">Thursday 22 September 2022</span>. Using Julia version 1.7.2.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+    p = StencilPara{Int64, 4}(L=10, master_rank=0)
+    @unpack NL, master_rank, C1, C2, N, LD = p
+    
+    rmat = rand(ComplexF64, (LD,LD))
+    
+    data = ParallelQCDStencil.linear_link_values_to_site_based_array(p, [rmat for i in 1:NL])
+      
+    total = compute_stencil(p, data, Sequential())
+    
+    println(&quot;total:$(total) serial\n &quot;)</code></pre><h2 id="Code-execution"><a class="docs-heading-anchor" href="#Code-execution">Code execution</a><a id="Code-execution-1"></a><a class="docs-heading-anchor-permalink" href="#Code-execution" title="Permalink"></a></h2><p>The program can be launched using MPI command e.g:</p><pre><code class="nohighlight hljs">mpirun -n 4 julia --project basic_example.jl</code></pre></article><nav class="docs-footer"><a class="docs-footer-nextpage" href="references/exports/">All Exports »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.14 on <span class="colophon-date" title="Friday 23 September 2022 14:29">Friday 23 September 2022</span>. Using Julia version 1.7.2.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
